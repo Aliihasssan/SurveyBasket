@@ -1,0 +1,12 @@
+[
+  {
+    "ContainingType": "SurveyBasket.API.Controllers.PollsController",
+    "Method": "GetAll",
+    "RelativePath": "api/Polls",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  }
+]
