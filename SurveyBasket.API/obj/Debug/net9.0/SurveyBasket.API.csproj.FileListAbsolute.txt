@@ -32,3 +32,4 @@ G:\Implementation\SurveyBasket\SurveyBasket.API\obj\Debug\net9.0\SurveyBasket.AP
 G:\Implementation\SurveyBasket\SurveyBasket.API\obj\Debug\net9.0\SurveyBasket.API.genruntimeconfig.cache
 G:\Implementation\SurveyBasket\SurveyBasket.API\obj\Debug\net9.0\ref\SurveyBasket.API.dll
 G:\Implementation\SurveyBasket\SurveyBasket.API\bin\Debug\net9.0\Swashbuckle.AspNetCore.SwaggerUI.dll
+G:\Implementation\SurveyBasket\SurveyBasket.API\obj\Debug\net9.0\SurveyBasket.API.sourcelink.json
