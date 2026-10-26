@@ -1,5 +1,8 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Mapster;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using SurveyBasket.API.Contracts.Requests;
+using SurveyBasket.API.Contracts.Responses;
 using SurveyBasket.API.Models;
 using SurveyBasket.API.Services;
 
@@ -13,30 +16,48 @@ namespace SurveyBasket.API.Controllers
         private readonly IPollService _pollService = pollService;
        
         // -----------------------------------------
+
         [HttpGet("")]
         public IActionResult GetAll ()
         {
-            return Ok(_pollService.GetAll());
+            var polls = _pollService.GetAll();
+            return Ok(polls.Adapt<List<PollResponse>>());
         }
 
         [HttpGet("{id}")]
-        public IActionResult GetById (int id)
+        public IActionResult GetById ([FromRoute]int id)
         {
-            Poll ?poll = _pollService.Get(id);
-            return poll is null ? NotFound() : Ok(poll);
+            //TypeAdapterConfig config = new TypeAdapterConfig();
+            //config.NewConfig<Poll, PollResponse>().Map(
+            //   des => des.FullName,
+            //   scr => scr.Name + " " + scr.Description
+            //    );
+
+            //TypeAdapterConfig<Poll, PollResponse>
+            //    .NewConfig()
+            //    .Map(
+            //        dest => dest.FullName,
+            //        src => src.Name + " " + src.Description
+            //    );
+
+            Poll? poll = _pollService.Get(id);
+            var poly = poll.Adapt<PollResponse>();  
+            return poll is null ? NotFound() : Ok(poly);
         }
 
         [HttpPost]
-        public IActionResult Add(Poll poll)
+        public IActionResult Add([FromForm] CreatePollRequest req)
         {
-            var newPoll  = _pollService.Add(poll);
+            Poll response = req.Adapt<Poll>();
+            var newPoll  = _pollService.Add(response);
             return CreatedAtAction(nameof(GetById),new {id =newPoll.Id},newPoll);
         }
 
         [HttpPut("{id}")]
-        public IActionResult Update(int id ,Poll poll)
+        public IActionResult Update(int id ,CreatePollRequest req )
         {
-            bool isUpdated = _pollService.Update(id,poll);
+            Poll response = req.Adapt<Poll>();
+            bool isUpdated = _pollService.Update(id,response);
 
             if (isUpdated)
                 return NoContent();
@@ -49,11 +70,19 @@ namespace SurveyBasket.API.Controllers
         {
             bool isDeleted = _pollService.Delete(id);
 
-            if (isDeleted )
+            if (isDeleted ) 
                return NoContent();
 
             return NotFound();
         }
+
+        [HttpGet("test")]
+        public IActionResult Get([FromHeader(Name = "fdfd")] string ?id)
+        {
+            return Ok(id);
+        }
+
+
        
     }
 }

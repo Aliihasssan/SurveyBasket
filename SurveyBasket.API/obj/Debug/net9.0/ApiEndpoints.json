@@ -18,9 +18,19 @@
     "Order": 0,
     "Parameters": [
       {
-        "Name": "poll",
-        "Type": "SurveyBasket.API.Models.Poll",
-        "IsRequired": true
+        "Name": "Id",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "Name",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "Description",
+        "Type": "System.String",
+        "IsRequired": false
       }
     ],
     "ReturnTypes": []
@@ -71,9 +81,25 @@
         "IsRequired": true
       },
       {
-        "Name": "poll",
-        "Type": "SurveyBasket.API.Models.Poll",
+        "Name": "req",
+        "Type": "SurveyBasket.API.Contracts.Requests.CreatePollRequest",
         "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SurveyBasket.API.Controllers.PollsController",
+    "Method": "Get",
+    "RelativePath": "api/Polls/test",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "fdfd",
+        "Type": "System.String",
+        "IsRequired": false
       }
     ],
     "ReturnTypes": []

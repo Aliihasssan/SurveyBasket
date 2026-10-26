@@ -1,4 +1,5 @@
-﻿using SurveyBasket.API.Models;
+﻿using Microsoft.AspNetCore.Mvc;
+using SurveyBasket.API.Models;
 
 namespace SurveyBasket.API.Services
 {
@@ -9,8 +10,8 @@ namespace SurveyBasket.API.Services
            new Poll
            {
                Id = 1,
-               Name = "Test",
-               Description = "Tes   t",
+               Name = "Ali",
+               Description = "Eng",
            } ,
            new Poll
            {
