@@ -14,7 +14,7 @@ namespace SurveyBasket.API.Controllers
     {
         // Primary Constructor
         private readonly IPollService _pollService = pollService;
-       
+        
         // -----------------------------------------
 
         [HttpGet("")]
@@ -23,38 +23,25 @@ namespace SurveyBasket.API.Controllers
             var polls = _pollService.GetAll();
             return Ok(polls.Adapt<List<PollResponse>>());
         }
-
+        //========================
         [HttpGet("{id}")]
         public IActionResult GetById ([FromRoute]int id)
         {
-            //TypeAdapterConfig config = new TypeAdapterConfig();
-            //config.NewConfig<Poll, PollResponse>().Map(
-            //   des => des.FullName,
-            //   scr => scr.Name + " " + scr.Description
-            //    );
-
-            //TypeAdapterConfig<Poll, PollResponse>
-            //    .NewConfig()
-            //    .Map(
-            //        dest => dest.FullName,
-            //        src => src.Name + " " + src.Description
-            //    );
-
             Poll? poll = _pollService.Get(id);
             var poly = poll.Adapt<PollResponse>();  
             return poll is null ? NotFound() : Ok(poly);
         }
-
+        //========================
         [HttpPost]
-        public IActionResult Add([FromForm] CreatePollRequest req)
+        public IActionResult Add([FromBody] CreatePollRequest req)
         {
             Poll response = req.Adapt<Poll>();
             var newPoll  = _pollService.Add(response);
             return CreatedAtAction(nameof(GetById),new {id =newPoll.Id},newPoll);
         }
-
+        //========================
         [HttpPut("{id}")]
-        public IActionResult Update(int id ,CreatePollRequest req )
+        public IActionResult Update([FromRoute]int id ,[FromBody]CreatePollRequest req )
         {
             Poll response = req.Adapt<Poll>();
             bool isUpdated = _pollService.Update(id,response);
@@ -64,7 +51,7 @@ namespace SurveyBasket.API.Controllers
 
             return NotFound();
         }
-
+        //========================
         [HttpDelete]
         public IActionResult Delete(int id)
         {
@@ -75,7 +62,7 @@ namespace SurveyBasket.API.Controllers
 
             return NotFound();
         }
-
+        //======================== Test
         [HttpGet("test")]
         public IActionResult Get([FromHeader(Name = "fdfd")] string ?id)
         {

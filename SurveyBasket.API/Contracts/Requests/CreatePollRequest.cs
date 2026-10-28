@@ -1,5 +1,13 @@
-﻿namespace SurveyBasket.API.Contracts.Requests
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace SurveyBasket.API.Contracts.Requests
 {
-    public record CreatePollRequest(int Id, string Name, string Description);
+    public record CreatePollRequest
+        (
+        int Id,
+        string Name, 
+        string Description,
+        DateTime? BirthDate
+        );
  
 }
