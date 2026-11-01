@@ -3,8 +3,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SurveyBasket.API.Contracts.Requests;
 using SurveyBasket.API.Contracts.Responses;
-using SurveyBasket.API.Models;
 using SurveyBasket.API.Services;
+using System.Threading.Tasks;
 
 namespace SurveyBasket.API.Controllers
 {
@@ -20,31 +20,31 @@ namespace SurveyBasket.API.Controllers
         [HttpGet("")]
         public IActionResult GetAll ()
         {
-            var polls = _pollService.GetAll();
+            var polls = _pollService.GetAllAsync();
             return Ok(polls.Adapt<List<PollResponse>>());
         }
         //========================
         [HttpGet("{id}")]
-        public IActionResult GetById ([FromRoute]int id)
+        public async Task<IActionResult> GetById([FromRoute] int id)
         {
-            Poll? poll = _pollService.Get(id);
-            var poly = poll.Adapt<PollResponse>();  
+            Poll? poll = await _pollService.GetAsync(id);
+            var poly = poll.Adapt<PollResponse>();
             return poll is null ? NotFound() : Ok(poly);
         }
         //========================
         [HttpPost]
-        public IActionResult Add([FromBody] CreatePollRequest req)
+        public async Task<IActionResult> AddAsync([FromBody] PollRequest req)
         {
             Poll response = req.Adapt<Poll>();
-            var newPoll  = _pollService.Add(response);
-            return CreatedAtAction(nameof(GetById),new {id =newPoll.Id},newPoll);
+            var newPoll = await _pollService.AddAsync(response);
+            return CreatedAtAction(nameof(GetById), new { id = newPoll.Id }, newPoll);
         }
         //========================
         [HttpPut("{id}")]
-        public IActionResult Update([FromRoute]int id ,[FromBody]CreatePollRequest req )
+        public async Task<IActionResult> Update([FromRoute] int id, [FromBody] PollRequest req)
         {
             Poll response = req.Adapt<Poll>();
-            bool isUpdated = _pollService.Update(id,response);
+            bool isUpdated = await _pollService.UpdateAsync(id, response);
 
             if (isUpdated)
                 return NoContent();
@@ -53,23 +53,18 @@ namespace SurveyBasket.API.Controllers
         }
         //========================
         [HttpDelete]
-        public IActionResult Delete(int id)
+        public async Task<IActionResult> Delete(int id)
         {
-            bool isDeleted = _pollService.Delete(id);
+            bool isDeleted = await _pollService.DeleteAsync(id);
 
-            if (isDeleted ) 
-               return NoContent();
+            if (isDeleted)
+                return NoContent();
 
             return NotFound();
         }
-        //======================== Test
-        [HttpGet("test")]
-        public IActionResult Get([FromHeader(Name = "fdfd")] string ?id)
-        {
-            return Ok(id);
-        }
+      
 
 
-       
+
     }
 }

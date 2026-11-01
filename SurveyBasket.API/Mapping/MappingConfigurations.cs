@@ -1,6 +1,6 @@
 ﻿using Mapster;
 using SurveyBasket.API.Contracts.Responses;
-using SurveyBasket.API.Models;
+
 
 namespace SurveyBasket.API.Mapping
 {
@@ -8,10 +8,10 @@ namespace SurveyBasket.API.Mapping
     {
         public void Register(TypeAdapterConfig config)
         {
-            config.NewConfig<Poll, PollResponse>().Map(
-               des => des.FullName,
-               scr => scr.Name + " " + scr.Description
-                );
+            //config.NewConfig<Poll, PollResponse>().Map(
+            //   des => des.FullName,
+            //   scr => scr.Name + " " + scr.Description
+            //    );
         }
     }
 }

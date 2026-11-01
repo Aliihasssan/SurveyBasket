@@ -1,3 +1,7 @@
+
+
+using Microsoft.EntityFrameworkCore;
+
 namespace SurveyBasket.API
 {
     public class Program
@@ -6,8 +10,9 @@ namespace SurveyBasket.API
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            builder.Services.AddDependencies();
+       
 
+            builder.Services.AddDependencies(builder.Configuration);
             var app = builder.Build();
 
 

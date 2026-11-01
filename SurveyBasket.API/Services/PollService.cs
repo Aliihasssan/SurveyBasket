@@ -1,67 +1,58 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using SurveyBasket.API.Models;
+﻿using System.Threading.Tasks;
 
 namespace SurveyBasket.API.Services
 {
-    public class PollService : IPollService
+    public class PollService(ApplicationDbContext context) : IPollService
     {
-        private readonly List<Poll> _polls = new List<Poll>()
-        {
-           new Poll
-           {
-               Id = 1,
-               Name = "Ali",
-               Description = "Eng",
-           } ,
-           new Poll
-           {
-               Id = 2,
-               Name = "two",
-               Description = " fdf "
-           }
-        };
+        private readonly ApplicationDbContext _context = context;
 
-        public ICollection<Poll> GetAll()
+        public async Task<IEnumerable<Poll>> GetAllAsync()
         {
-            return _polls;
+            return await _context.Polls.AsNoTracking().ToListAsync();
         }
 
-        public Poll? Get(int id)
+        public async Task<Poll?> GetAsync(int id)
         {
-           return _polls.SingleOrDefault(x => x.Id == id);
-           
+            return await _context.Polls.FindAsync(id);
+
         }
 
-        public Poll Add (Poll poll)
+        public async Task<Poll> AddAsync(Poll poll)
         {
-            _polls.Add(poll);
+            await _context.Polls.AddAsync(poll);
+            await _context.SaveChangesAsync();
             return poll;
         }
 
-        public bool Update(int id, Poll poll)
+        public async Task<bool> UpdateAsync(int id, Poll poll)
         {
-           var currnetPoll = Get(id);
+            var currnetPoll =await GetAsync(id);
 
             if (currnetPoll == null)
                 return false;
 
-            currnetPoll.Id = id;
-            currnetPoll.Name = poll.Name;
-            currnetPoll.Description = poll.Description;
+            currnetPoll.Title = poll.Title;
+            currnetPoll.Summary = poll.Summary;
+            currnetPoll.StartsAt = poll.StartsAt;
+            currnetPoll.EndsAt = poll.EndsAt;
+
+            await _context.SaveChangesAsync();
 
             return true;
 
         }
 
-        public bool Delete(int id)
+        public async Task<bool> DeleteAsync(int id)
         {
-            Poll poll = Get(id);
+            Poll? poll = await GetAsync(id);
 
             if (poll == null)
                 return false;
 
-            _polls.Remove(poll);
+            _context.Remove(poll);
+            await _context.SaveChangesAsync();
             return true;
         }
     }
 }
+
