@@ -18,16 +18,16 @@ namespace SurveyBasket.API.Controllers
         // -----------------------------------------
 
         [HttpGet("")]
-        public IActionResult GetAll ()
+        public IActionResult GetAll (CancellationToken cancellationToken)
         {
-            var polls = _pollService.GetAllAsync();
+            var polls = _pollService.GetAllAsync(cancellationToken);
             return Ok(polls.Adapt<List<PollResponse>>());
         }
         //========================
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetById([FromRoute] int id)
+        public async Task<IActionResult> GetById([FromRoute] int id, CancellationToken cancellationToken)
         {
-            Poll? poll = await _pollService.GetAsync(id);
+            Poll? poll = await _pollService.GetAsync(id, cancellationToken);
             var poly = poll.Adapt<PollResponse>();
             return poll is null ? NotFound() : Ok(poly);
         }
@@ -41,10 +41,10 @@ namespace SurveyBasket.API.Controllers
         }
         //========================
         [HttpPut("{id}")]
-        public async Task<IActionResult> Update([FromRoute] int id, [FromBody] PollRequest req)
+        public async Task<IActionResult> Update([FromRoute] int id, [FromBody] PollRequest req,CancellationToken cancellationToken)
         {
             Poll response = req.Adapt<Poll>();
-            bool isUpdated = await _pollService.UpdateAsync(id, response);
+            bool isUpdated = await _pollService.UpdateAsync(id, response,cancellationToken);
 
             if (isUpdated)
                 return NoContent();
@@ -53,9 +53,9 @@ namespace SurveyBasket.API.Controllers
         }
         //========================
         [HttpDelete]
-        public async Task<IActionResult> Delete(int id)
+        public async Task<IActionResult> Delete(int id,CancellationToken cancellationToken)
         {
-            bool isDeleted = await _pollService.DeleteAsync(id);
+            bool isDeleted = await _pollService.DeleteAsync(id, cancellationToken);
 
             if (isDeleted)
                 return NoContent();

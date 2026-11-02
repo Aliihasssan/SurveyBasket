@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Threading;
+using System.Threading.Tasks;
 
 namespace SurveyBasket.API.Services
 {
@@ -6,14 +7,14 @@ namespace SurveyBasket.API.Services
     {
         private readonly ApplicationDbContext _context = context;
 
-        public async Task<IEnumerable<Poll>> GetAllAsync()
+        public async Task<IEnumerable<Poll>> GetAllAsync(CancellationToken cancellationToken = default)
         {
-            return await _context.Polls.AsNoTracking().ToListAsync();
+            return await _context.Polls.AsNoTracking().ToListAsync(cancellationToken);
         }
 
-        public async Task<Poll?> GetAsync(int id)
+        public async Task<Poll?> GetAsync(int id ,CancellationToken cancellationToken = default)
         {
-            return await _context.Polls.FindAsync(id);
+            return await _context.Polls.FindAsync(id,cancellationToken);
 
         }
 
@@ -24,9 +25,9 @@ namespace SurveyBasket.API.Services
             return poll;
         }
 
-        public async Task<bool> UpdateAsync(int id, Poll poll)
+        public async Task<bool> UpdateAsync(int id, Poll poll, CancellationToken cancellationToken = default)
         {
-            var currnetPoll =await GetAsync(id);
+            var currnetPoll =await GetAsync(id, cancellationToken);
 
             if (currnetPoll == null)
                 return false;
@@ -36,21 +37,21 @@ namespace SurveyBasket.API.Services
             currnetPoll.StartsAt = poll.StartsAt;
             currnetPoll.EndsAt = poll.EndsAt;
 
-            await _context.SaveChangesAsync();
+            await _context.SaveChangesAsync(cancellationToken);
 
             return true;
 
         }
 
-        public async Task<bool> DeleteAsync(int id)
+        public async Task<bool> DeleteAsync(int id, CancellationToken cancellationToken = default)
         {
-            Poll? poll = await GetAsync(id);
+            Poll? poll = await GetAsync(id, cancellationToken);
 
             if (poll == null)
                 return false;
 
             _context.Remove(poll);
-            await _context.SaveChangesAsync();
+            await _context.SaveChangesAsync( cancellationToken);
             return true;
         }
     }
