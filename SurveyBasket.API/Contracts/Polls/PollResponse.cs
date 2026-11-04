@@ -1,4 +1,4 @@
-﻿namespace SurveyBasket.API.Contracts.Responses
+﻿namespace SurveyBasket.API.Contracts.Polls
 {
     public record PollResponse(int Id,
         string Title,

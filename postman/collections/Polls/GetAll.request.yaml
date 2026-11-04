@@ -1,0 +1,5 @@
+$kind: http-request
+description: ""
+url: https://localhost:7164/api/Polls
+method: GET
+order: 1000

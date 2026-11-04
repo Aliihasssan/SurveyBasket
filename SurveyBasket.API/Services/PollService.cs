@@ -18,10 +18,11 @@ namespace SurveyBasket.API.Services
 
         }
 
-        public async Task<Poll> AddAsync(Poll poll)
+
+        public async Task<Poll> AddAsync(Poll poll, CancellationToken cancellationToken = default)
         {
-            await _context.Polls.AddAsync(poll);
-            await _context.SaveChangesAsync();
+            await _context.Polls.AddAsync(poll, cancellationToken);
+            await _context.SaveChangesAsync(cancellationToken);
             return poll;
         }
 
@@ -52,6 +53,16 @@ namespace SurveyBasket.API.Services
 
             _context.Remove(poll);
             await _context.SaveChangesAsync( cancellationToken);
+            return true;
+        }
+
+        public async Task<bool> TogglePublishStatusAsync(int id, CancellationToken cancellationToken = default)
+        {
+            var currentPoll = await GetAsync(id, cancellationToken);
+            if (currentPoll == null)
+                return false;
+            currentPoll.IsPublished = ! currentPoll.IsPublished;
+            await _context.SaveChangesAsync(cancellationToken);
             return true;
         }
     }

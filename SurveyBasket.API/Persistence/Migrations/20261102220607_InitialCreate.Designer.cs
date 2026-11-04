@@ -12,8 +12,8 @@ using SurveyBasket.API.Persistence;
 namespace SurveyBasket.API.Persistence.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20261101013227_InitialMigration")]
-    partial class InitialMigration
+    [Migration("20261102220607_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

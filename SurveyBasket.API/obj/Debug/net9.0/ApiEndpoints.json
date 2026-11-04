@@ -19,7 +19,7 @@
     "Parameters": [
       {
         "Name": "req",
-        "Type": "SurveyBasket.API.Contracts.Requests.PollRequest",
+        "Type": "SurveyBasket.API.Contracts.Polls.PollRequest",
         "IsRequired": true
       }
     ],
@@ -72,7 +72,28 @@
       },
       {
         "Name": "req",
-        "Type": "SurveyBasket.API.Contracts.Requests.PollRequest",
+        "Type": "SurveyBasket.API.Contracts.Polls.PollRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SurveyBasket.API.Controllers.PollsController",
+    "Method": "TogglePublishStatus",
+    "RelativePath": "api/Polls/{id}/togglePublish",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "req",
+        "Type": "SurveyBasket.API.Contracts.Polls.PollRequest",
         "IsRequired": true
       }
     ],

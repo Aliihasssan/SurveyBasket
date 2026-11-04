@@ -1,8 +1,7 @@
 ﻿using Mapster;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using SurveyBasket.API.Contracts.Requests;
-using SurveyBasket.API.Contracts.Responses;
+using SurveyBasket.API.Contracts.Polls;
 using SurveyBasket.API.Services;
 using System.Threading.Tasks;
 
@@ -18,9 +17,9 @@ namespace SurveyBasket.API.Controllers
         // -----------------------------------------
 
         [HttpGet("")]
-        public IActionResult GetAll (CancellationToken cancellationToken)
+        public async Task<IActionResult> GetAll (CancellationToken cancellationToken)
         {
-            var polls = _pollService.GetAllAsync(cancellationToken);
+            var polls =await _pollService.GetAllAsync(cancellationToken);
             return Ok(polls.Adapt<List<PollResponse>>());
         }
         //========================
@@ -33,10 +32,10 @@ namespace SurveyBasket.API.Controllers
         }
         //========================
         [HttpPost]
-        public async Task<IActionResult> AddAsync([FromBody] PollRequest req)
+        public async Task<IActionResult> AddAsync([FromBody] PollRequest req,CancellationToken cancellationToken=default)
         {
             Poll response = req.Adapt<Poll>();
-            var newPoll = await _pollService.AddAsync(response);
+            var newPoll = await _pollService.AddAsync(response,cancellationToken);
             return CreatedAtAction(nameof(GetById), new { id = newPoll.Id }, newPoll);
         }
         //========================
@@ -62,7 +61,19 @@ namespace SurveyBasket.API.Controllers
 
             return NotFound();
         }
-      
+
+        [HttpPut("{id}/togglePublish")]
+        public async Task<IActionResult> TogglePublishStatus([FromRoute] int id, [FromBody] PollRequest req, CancellationToken cancellationToken)
+        {
+            Poll response = req.Adapt<Poll>();
+            bool isUpdated = await _pollService.TogglePublishStatusAsync(id, cancellationToken);
+
+            if (isUpdated)
+                return NoContent();
+
+            return NotFound();
+        }
+
 
 
 
