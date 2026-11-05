@@ -1,4 +1,5 @@
 ﻿using Mapster;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SurveyBasket.API.Contracts.Polls;
@@ -17,6 +18,7 @@ namespace SurveyBasket.API.Controllers
         // -----------------------------------------
 
         [HttpGet("")]
+        [Authorize]
         public async Task<IActionResult> GetAll (CancellationToken cancellationToken)
         {
             var polls =await _pollService.GetAllAsync(cancellationToken);

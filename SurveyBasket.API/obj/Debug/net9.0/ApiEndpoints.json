@@ -98,5 +98,21 @@
       }
     ],
     "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SurveyBasket.API.Controllers.AuthController",
+    "Method": "LoginAsync",
+    "RelativePath": "Auth",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "SurveyBasket.API.Contracts.Authentication.SignInRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
   }
 ]
