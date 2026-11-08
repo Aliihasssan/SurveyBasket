@@ -10,8 +10,8 @@ namespace SurveyBasket.API
         {
             var builder = WebApplication.CreateBuilder(args);
 
-       
 
+            var config = builder.Configuration["Key"];
             builder.Services.AddDependencies(builder.Configuration);
             var app = builder.Build();
 

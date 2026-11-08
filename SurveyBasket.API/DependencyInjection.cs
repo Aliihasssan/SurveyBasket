@@ -12,7 +12,7 @@ namespace SurveyBasket.API
     {
         public static IServiceCollection AddDependencies(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddAuthConfig();
+            services.AddAuthConfig(configuration);
             var connectionString = configuration.GetConnectionString("DefaultConnection") ??
            throw new InvalidOperationException("Connection String 'DefaultConnection' not found !");
 
@@ -54,7 +54,7 @@ namespace SurveyBasket.API
             
             return services;
         }
-        private static IServiceCollection AddAuthConfig(this IServiceCollection services)
+        private static IServiceCollection AddAuthConfig(this IServiceCollection services,IConfiguration configuration)
         {
             services.AddIdentity<ApplicationUser, IdentityRole>().
                  AddEntityFrameworkStores<ApplicationDbContext>();
@@ -75,7 +75,7 @@ namespace SurveyBasket.API
                     ValidateAudience = true,
                     ValidateLifetime = true,
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("kfdfdf")),
-                    ValidIssuer = "SurveyBasketApp",
+                    ValidIssuer = configuration["Jwt:Issuer"],
                     ValidAudience = "SurveyBasketUsers"
                 };
             });
