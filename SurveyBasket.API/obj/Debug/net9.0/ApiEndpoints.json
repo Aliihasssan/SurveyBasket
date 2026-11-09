@@ -118,7 +118,7 @@
   {
     "ContainingType": "SurveyBasket.API.Controllers.AuthController",
     "Method": "Test",
-    "RelativePath": "Auth",
+    "RelativePath": "Auth/test",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,

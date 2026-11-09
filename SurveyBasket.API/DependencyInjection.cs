@@ -24,7 +24,7 @@ namespace SurveyBasket.API
 
             services.AddScoped<IPollService, PollService>();
             services.AddScoped<IAuthService, AuthService>();
-            services.AddScoped<IJwtProvider, JwtProvider>();
+            
 
             return services;
         }
@@ -57,7 +57,17 @@ namespace SurveyBasket.API
         private static IServiceCollection AddAuthConfig(this IServiceCollection services,IConfiguration configuration)
         {
             services.AddIdentity<ApplicationUser, IdentityRole>().
-                 AddEntityFrameworkStores<ApplicationDbContext>();
+             AddEntityFrameworkStores<ApplicationDbContext>();
+
+            services.AddSingleton<IJwtProvider, JwtProvider>();
+
+            //services.Configure<JwtOptions>(configuration.GetSection(JwtOptions.SectionName));
+            services.AddOptions<JwtOptions>().BindConfiguration(JwtOptions.SectionName).ValidateDataAnnotations().ValidateOnStart();
+
+
+
+            var JwtSettings = configuration.GetSection(JwtOptions.SectionName).Get<JwtOptions>();
+      
 
             services.AddAuthentication(options =>
             {
@@ -74,12 +84,12 @@ namespace SurveyBasket.API
                     ValidateIssuer = true,
                     ValidateAudience = true,
                     ValidateLifetime = true,
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("kfdfdf")),
-                    ValidIssuer = configuration["Jwt:Issuer"],
-                    ValidAudience = "SurveyBasketUsers"
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(JwtSettings?.Key!)),
+                    ValidIssuer = JwtSettings?.Issuer,
+                    ValidAudience = JwtSettings?.Audience
                 };
             });
-               
+   
 
             return services;
         }

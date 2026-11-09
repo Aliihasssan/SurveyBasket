@@ -1,16 +1,17 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity.Data;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 using SurveyBasket.API.Contracts.Authentication;
 
 namespace SurveyBasket.API.Controllers
 {
     [Route("[controller]")]
     [ApiController]
-    public class AuthController(IAuthService authService,IConfiguration configuration) : ControllerBase
+    public class AuthController(IAuthService authService,IOptions<JwtOptions> options) : ControllerBase
     {
         private readonly IAuthService _authService = authService;
-        private readonly IConfiguration _configuration = configuration;
+        private readonly JwtOptions _options = options.Value;
 
         [HttpPost("")]
         public async Task<IActionResult> LoginAsync(SignInRequest request,CancellationToken cancellationToken=default)
@@ -19,13 +20,13 @@ namespace SurveyBasket.API.Controllers
             return authResult is null ? BadRequest("Invalid email/password") : Ok(authResult);
         }
 
-        [HttpGet]
+        [HttpGet("test")]
         public IActionResult Test()
         {
             var config = new
             {
-                fd = _configuration["Key"],
-                one = _configuration["oneDrive"]
+                Aud = _options.Audience,
+                ket = _options.Key
         };
                 return Ok(config);
         }
