@@ -19,7 +19,6 @@ namespace SurveyBasket.API
             services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(connectionString));
             services.AddControllers();
             services.AddOpenApiServices()
-                    .AddMapsterConfig()
                     .AddFluentValidationConfig();
 
             services.AddScoped<IPollService, PollService>();
