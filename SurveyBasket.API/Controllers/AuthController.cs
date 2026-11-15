@@ -12,7 +12,7 @@ namespace SurveyBasket.API.Controllers
     {
         private readonly IAuthService _authService = authService;
         private readonly JwtOptions _options = options.Value;
-
+        //------------------------------------------------------
         [HttpPost("")]
         public async Task<IActionResult> LoginAsync(SignInRequest request,CancellationToken cancellationToken=default)
         {
@@ -20,16 +20,22 @@ namespace SurveyBasket.API.Controllers
             return authResult is null ? BadRequest("Invalid email/password") : Ok(authResult);
         }
 
-        [HttpGet("test")]
-        public IActionResult Test()
+        //=============================
+        [HttpPost("refresh")]
+        public async Task<IActionResult> RefreshAsync(RefreshTokenRequest request, CancellationToken cancellationToken = default)
         {
-            var config = new
-            {
-                Aud = _options.Audience,
-                ket = _options.Key
-        };
-                return Ok(config);
+            var authResult = await _authService.GetRefreshTokenAsync(request.Token, request.RefreshToken, cancellationToken);
+            return authResult is null ? BadRequest("Invalid Token") : Ok(authResult);
         }
+        //============================
+        //=============================
+        [HttpPost("revoke-refresh-token")]
+        public async Task<IActionResult> RevokeRefreshTokenAsync(RefreshTokenRequest request, CancellationToken cancellationToken = default)
+        {
+            var isRevoked = await _authService.RevokeRefreshTokenAsync(request.Token, request.RefreshToken, cancellationToken);
+            return isRevoked ? Ok() : BadRequest("Operation Failed");
+        }
+        //============================
     }
 
 }

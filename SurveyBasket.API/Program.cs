@@ -10,6 +10,8 @@ namespace SurveyBasket.API
         {
             var builder = WebApplication.CreateBuilder(args);
 
+            //builder.Services.AddIdentityApiEndpoints<ApplicationUser>()
+            //    .AddEntityFrameworkStores<ApplicationDbContext>();
 
             var config = builder.Configuration["Key"];
             builder.Services.AddDependencies(builder.Configuration);
@@ -27,6 +29,7 @@ namespace SurveyBasket.API
 
             app.UseAuthorization();
 
+            //app.MapIdentityApi<ApplicationUser>();
 
             app.MapControllers();
 

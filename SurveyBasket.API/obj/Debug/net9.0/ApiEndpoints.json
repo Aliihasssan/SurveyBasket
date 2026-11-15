@@ -117,12 +117,34 @@
   },
   {
     "ContainingType": "SurveyBasket.API.Controllers.AuthController",
-    "Method": "Test",
-    "RelativePath": "Auth/test",
-    "HttpMethod": "GET",
+    "Method": "RefreshAsync",
+    "RelativePath": "Auth/refresh",
+    "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
-    "Parameters": [],
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "SurveyBasket.API.Contracts.Authentication.RefreshTokenRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SurveyBasket.API.Controllers.AuthController",
+    "Method": "RevokeRefreshTokenAsync",
+    "RelativePath": "Auth/revoke-refresh-token",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "SurveyBasket.API.Contracts.Authentication.RefreshTokenRequest",
+        "IsRequired": true
+      }
+    ],
     "ReturnTypes": []
   }
 ]

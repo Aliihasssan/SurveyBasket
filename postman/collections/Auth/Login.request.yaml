@@ -1,0 +1,8 @@
+$kind: http-request
+description: ""
+url: https://localhost:7164/auth
+method: POST
+body:
+  type: json
+  content: "{\r\n    \r\n}"
+order: 1000

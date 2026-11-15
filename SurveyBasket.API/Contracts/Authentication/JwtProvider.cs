@@ -20,7 +20,7 @@ namespace SurveyBasket.API.Contracts.Authentication
                 ];
             //-------------------------
 
-            var symmetricSecurityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("kfdfdf"));
+            var symmetricSecurityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("kfdfdfffffffffffff@s@@@123ffffffffffff"));
             var signingCredintials = new SigningCredentials(symmetricSecurityKey, SecurityAlgorithms.HmacSha256);
             var expiresIn = 30;
             //--------------------
@@ -38,11 +38,11 @@ namespace SurveyBasket.API.Contracts.Authentication
 
 
         }
-
+        //=========================
         public string? ValidateToken(string token)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
-            var symmetricSecurityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("kfdfdf"));
+            var symmetricSecurityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("kfdfdfffffffffffff@s@@@123ffffffffffff"));
             try
             {
                 tokenHandler.ValidateToken(token, new TokenValidationParameters
