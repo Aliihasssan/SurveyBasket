@@ -1,5 +1,9 @@
 $kind: http-request
 description: ""
-url: https://localhost:7164/api/Polls/{id}
+url: https://localhost:7164/api/Polls/1
 method: GET
+auth:
+  type: bearer
+  credentials:
+    token: "{{json_web_token_0pzh}}"
 order: 2000

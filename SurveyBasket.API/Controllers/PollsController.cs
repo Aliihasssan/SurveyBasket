@@ -10,6 +10,7 @@ namespace SurveyBasket.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class PollsController(IPollService pollService) : ControllerBase
     {
         // Primary Constructor
@@ -18,7 +19,6 @@ namespace SurveyBasket.API.Controllers
         // -----------------------------------------
 
         [HttpGet("")]
-        [Authorize]
         public async Task<IActionResult> GetAll (CancellationToken cancellationToken)
         {
             var polls =await _pollService.GetAllAsync(cancellationToken);
@@ -38,7 +38,7 @@ namespace SurveyBasket.API.Controllers
         {
             Poll response = req.Adapt<Poll>();
             var newPoll = await _pollService.AddAsync(response,cancellationToken);
-            return CreatedAtAction(nameof(GetById), new { id = newPoll.Id }, newPoll);
+            return CreatedAtAction(nameof(GetById), new { id = newPoll.Id }, newPoll.Adapt<PollResponse>());
         }
         //========================
         [HttpPut("{id}")]

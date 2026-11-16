@@ -1,0 +1,21 @@
+$kind: http-request
+url: https://localhost:7164/api/Polls/1
+method: PUT
+body:
+  type: json
+  content: "{\r
+
+    \  \"title\": \"poll_1\",\r
+
+    \  \"summary\": \"string\",\r
+
+    \  \"startsAt\": \"2026-11-16\",\r
+
+    \  \"endsAt\": \"2026-11-20\"\r
+
+    }"
+auth:
+  type: bearer
+  credentials:
+    token: "{{json_web_token_123j}}"
+order: 4000
