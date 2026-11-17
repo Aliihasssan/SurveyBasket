@@ -12,10 +12,25 @@ namespace SurveyBasket.API
     {
         public static IServiceCollection AddDependencies(this IServiceCollection services, IConfiguration configuration)
         {
+            var allowedOrigins = configuration.GetSection("AllowedOrigins").Get<string[]>();
+            services.AddCors(options =>
+            {
+                options.AddDefaultPolicy(builder =>
+                builder
+                        .AllowAnyHeader()
+                        .AllowAnyMethod()
+                        .WithOrigins(allowedOrigins!)
+                                 );  
+            }
+                            );
+            
+
+
+            //-----
             services.AddAuthConfig(configuration);
             var connectionString = configuration.GetConnectionString("DefaultConnection") ??
            throw new InvalidOperationException("Connection String 'DefaultConnection' not found !");
-
+            //-----
             services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(connectionString));
             services.AddControllers();
             services.AddOpenApiServices()

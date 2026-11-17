@@ -1,5 +1,6 @@
 ﻿using Mapster;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SurveyBasket.API.Contracts.Polls;
@@ -11,6 +12,7 @@ namespace SurveyBasket.API.Controllers
     [Route("api/[controller]")]
     [ApiController]
     [Authorize]
+    
     public class PollsController(IPollService pollService) : ControllerBase
     {
         // Primary Constructor
