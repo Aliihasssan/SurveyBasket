@@ -23,14 +23,11 @@ namespace SurveyBasket.API
                                  );
             }
                             );
-
-
-
-            //-----
+            //--------------------------------------
             services.AddAuthConfig(configuration);
             var connectionString = configuration.GetConnectionString("DefaultConnection") ??
            throw new InvalidOperationException("Connection String 'DefaultConnection' not found !");
-            //-----
+            //-------------------------------------
             services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(connectionString));
             services.AddControllers();
             services.AddOpenApiServices()
@@ -39,7 +36,9 @@ namespace SurveyBasket.API
 
             services.AddScoped<IPollService, PollService>();
             services.AddScoped<IAuthService, AuthService>();
-            
+            //---Exception
+            services.AddExceptionHandler<GlobalExceptionHandler>();
+            services.AddProblemDetails();
 
             return services;
         }

@@ -11,7 +11,7 @@ namespace SurveyBasket.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
+    //[Authorize]
     
     public class PollsController(IPollService pollService) : ControllerBase
     {
@@ -31,14 +31,25 @@ namespace SurveyBasket.API.Controllers
         public async Task<IActionResult> GetById([FromRoute] int id, CancellationToken cancellationToken)
         {
             var result = await _pollService.GetAsync(id, cancellationToken);
-            return result.IsFailure ? NotFound(result.Error) : Ok(result.Value);
+            return result.IsFailure ?
+                Problem(statusCode:StatusCodes.Status404NotFound,
+                title:"Not Found",
+                extensions: new Dictionary<string, object?>
+                {
+                    {
+                        "errors" ,new[] {result.Error}
+                    }
+                }
+                ):
+                Ok(result.Value);
         }
         //========================
         [HttpPost]
         public async Task<IActionResult> AddAsync([FromBody] PollRequest req,CancellationToken cancellationToken=default)
         {
             var newPoll = await _pollService.AddAsync(req,cancellationToken);
-            return CreatedAtAction(nameof(GetById), new { id = newPoll.Value.Id }, newPoll.Value);
+            return newPoll.IsFailure ?  Problem(statusCode: StatusCodes.Status409Conflict, detail: newPoll.Error.Describtion, title: newPoll.Error.Code):
+             CreatedAtAction(nameof(GetById), new { id = newPoll.Value.Id }, newPoll.Value);
         }
         //========================
         [HttpPut("{id}")]

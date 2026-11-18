@@ -274,7 +274,8 @@ namespace SurveyBasket.API.Persistence.Migrations
 
                     b.HasIndex("CreatedById");
 
-                    b.HasIndex("Title");
+                    b.HasIndex("Title")
+                        .IsUnique();
 
                     b.HasIndex("UpdatedById");
 
