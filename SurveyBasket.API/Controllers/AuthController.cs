@@ -17,7 +17,7 @@ namespace SurveyBasket.API.Controllers
         public async Task<IActionResult> LoginAsync(SignInRequest request,CancellationToken cancellationToken=default)
         {
             var authResult = await _authService.GetTokenAsync(request.Email, request.Password,cancellationToken);
-            return authResult is null ? BadRequest("Invalid email/password") : Ok(authResult);
+            return authResult.IsFailure ? BadRequest(authResult.Error) : Ok(authResult.Value);
         }
 
         //=============================

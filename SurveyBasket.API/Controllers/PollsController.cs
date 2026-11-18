@@ -30,9 +30,9 @@ namespace SurveyBasket.API.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById([FromRoute] int id, CancellationToken cancellationToken)
         {
-            Poll? poll = await _pollService.GetAsync(id, cancellationToken);
-            var poly = poll.Adapt<PollResponse>();
-            return poll is null ? NotFound() : Ok(poly);
+            var result = await _pollService.GetAsync(id, cancellationToken);
+            //var poly = poll.Adapt<PollResponse>();
+            return result.IsFailure ? NotFound(result.Error) : Ok(result.Value.Adapt<PollResponse>());
         }
         //========================
         [HttpPost]

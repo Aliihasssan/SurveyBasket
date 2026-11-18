@@ -1,4 +1,7 @@
-﻿using System.Threading;
+﻿using Microsoft.AspNetCore.Http.HttpResults;
+using SurveyBasket.API.Errors;
+using SurveyBasket.API.Errors.cs;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace SurveyBasket.API.Services
@@ -12,9 +15,11 @@ namespace SurveyBasket.API.Services
             return await _context.Polls.AsNoTracking().ToListAsync(cancellationToken);
         }
 
-        public async Task<Poll?> GetAsync(int id ,CancellationToken cancellationToken = default)
+        public async Task<Result<Poll>> GetAsync(int id ,CancellationToken cancellationToken = default)
         {
-            return await _context.Polls.FindAsync(id,cancellationToken);
+            var poll = await _context.Polls.FindAsync(id, cancellationToken);
+           
+            return poll is null ? Result.Failure<Poll>(PollErrors.PollNotFound) : Result.Success(poll);  
 
         }
 

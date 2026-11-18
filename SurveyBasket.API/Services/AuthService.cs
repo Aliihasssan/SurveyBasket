@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using SurveyBasket.API.Abstractions.cs;
 using SurveyBasket.API.Contracts.Authentication;
+using SurveyBasket.API.Errors.cs;
 using System.Security.Cryptography;
 
 namespace SurveyBasket.API.Services
@@ -12,15 +14,16 @@ namespace SurveyBasket.API.Services
         private readonly int _refreshTokenExpiryDays = 14;
 
 
-        public async Task<AuthResponse?> GetTokenAsync(string email, string password, CancellationToken cancellationToken = default)
+        public async Task<Result<AuthResponse>> GetTokenAsync(string email, string password, CancellationToken cancellationToken = default) 
         {
             //Check User
             var user = await _userManager.FindByEmailAsync(email);
             if (user == null)
-                return null;
+                return Result.Failure<AuthResponse>(UserErrors.InvalidCredentials);
             //Check Password
             var isValidPassword = await _userManager.CheckPasswordAsync(user, password);
-            if (!isValidPassword) return null;
+            if (!isValidPassword)
+                return Result.Failure<AuthResponse>(UserErrors.InvalidCredentials);
             //Generate Jwt & Refresh Token
             var (token, expiresIn) = _jwtProvider.GenerateToken(user);
             var refreshToken = GenerateRefreshToken();
@@ -34,7 +37,8 @@ namespace SurveyBasket.API.Services
             await _userManager.UpdateAsync(user);
 
             //Return new AuthResponse
-            return new AuthResponse(user.Id, user.Email, user.FirstName, user.LastName, token, expiresIn, refreshToken, refreshTokenExpiration);
+            var responce = new AuthResponse(user.Id, user.Email, user.FirstName, user.LastName, token, expiresIn, refreshToken, refreshTokenExpiration);
+            return Result.Success(responce);
         }
         public async Task<AuthResponse?> GetRefreshTokenAsync(string token, string refreshToken, CancellationToken cancellationToken = default)
         {
