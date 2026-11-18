@@ -12,4 +12,6 @@ global using Microsoft.Data.SqlClient;
 global using Microsoft.EntityFrameworkCore.Metadata.Builders;
 global using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 global using SurveyBasket.API.Abstractions.cs;
+global using SurveyBasket.API.Contracts.Polls;
+global using SurveyBasket.API.Errors;
 

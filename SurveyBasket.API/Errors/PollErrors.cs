@@ -1,4 +1,4 @@
-﻿namespace SurveyBasket.API.Errors.cs
+﻿namespace SurveyBasket.API.Errors
 {
     public static class PollErrors
     {

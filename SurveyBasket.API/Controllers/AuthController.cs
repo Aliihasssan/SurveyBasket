@@ -25,7 +25,7 @@ namespace SurveyBasket.API.Controllers
         public async Task<IActionResult> RefreshAsync(RefreshTokenRequest request, CancellationToken cancellationToken = default)
         {
             var authResult = await _authService.GetRefreshTokenAsync(request.Token, request.RefreshToken, cancellationToken);
-            return authResult is null ? BadRequest("Invalid Token") : Ok(authResult);
+            return authResult.IsFailure ? BadRequest(authResult.Error) : Ok(authResult.Value);
         }
         //============================
         //=============================
@@ -33,7 +33,7 @@ namespace SurveyBasket.API.Controllers
         public async Task<IActionResult> RevokeRefreshTokenAsync(RefreshTokenRequest request, CancellationToken cancellationToken = default)
         {
             var isRevoked = await _authService.RevokeRefreshTokenAsync(request.Token, request.RefreshToken, cancellationToken);
-            return isRevoked ? Ok() : BadRequest("Operation Failed");
+            return isRevoked.IsSuccess ? Ok() : BadRequest(isRevoked.Error);
         }
         //============================
     }

@@ -20,10 +20,10 @@ namespace SurveyBasket.API
                         .AllowAnyHeader()
                         .AllowAnyMethod()
                         .WithOrigins(allowedOrigins!)
-                                 );  
+                                 );
             }
                             );
-            
+
 
 
             //-----
@@ -35,6 +35,7 @@ namespace SurveyBasket.API
             services.AddControllers();
             services.AddOpenApiServices()
                     .AddFluentValidationConfig();
+            services.AddMapsterConfig();
 
             services.AddScoped<IPollService, PollService>();
             services.AddScoped<IAuthService, AuthService>();
