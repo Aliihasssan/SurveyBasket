@@ -4,7 +4,7 @@ namespace SurveyBasket.API.Contracts.Polls
 {
     public record PollRequest
         (
-        int Id,
+        //int Id,
         string Title, 
         string Summary,
         DateOnly StartsAt,

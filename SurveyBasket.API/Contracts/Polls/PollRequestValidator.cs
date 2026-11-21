@@ -7,6 +7,7 @@ namespace SurveyBasket.API.Contracts.Polls
     {
         public PollRequestValidator()
         {
+            //RuleFor(x => x.Id).Null();
            RuleFor(x => x.Title)
                 .NotEmpty()
                 .WithMessage("{PropertyName} can not be empty")

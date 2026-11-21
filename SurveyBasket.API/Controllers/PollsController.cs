@@ -11,8 +11,8 @@ namespace SurveyBasket.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    //[Authorize]
-    
+    [Authorize]
+
     public class PollsController(IPollService pollService) : ControllerBase
     {
         // Primary Constructor
@@ -39,7 +39,7 @@ namespace SurveyBasket.API.Controllers
                     {
                         "errors" ,new[] {result.Error}
                     }
-                }
+                } 
                 ):
                 Ok(result.Value);
         }
