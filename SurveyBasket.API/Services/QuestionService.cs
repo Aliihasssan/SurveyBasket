@@ -16,14 +16,15 @@ namespace SurveyBasket.API.Services
 
             if (doesQuestionExist)
                 return Result.Failure<QuestionResponse>(QuestionErrors.DuplicatedQuestion);
-            var question = request.Adapt<Question>();
+            var question = request.Adapt<Question>(); 
             question.PollId = pollId;
 
             request.Answers.ForEach(answer => question.Answers.Add(new Answer { Content = answer }));
+
             await _context.AddAsync(question,cancellationToken);
             await _context.SaveChangesAsync();
 
-            return Result.Success(request.Adapt<QuestionResponse>());
+            return Result.Success(question.Adapt<QuestionResponse>());
         }
     }
 }

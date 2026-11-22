@@ -13,11 +13,13 @@
 
             RuleFor(x => x.Answers)
                 .Must(x => x.Count > 1)
-                .WithMessage("Question should have at least 2 answers");
+                .WithMessage("Question should have at least 2 answers")
+                .When(x => x.Answers != null);
 
             RuleFor(x => x.Answers)
                 .Must(x => x.Distinct().Count() == x.Count())
-                .WithMessage("Question should not have duplicated answer");
+                .WithMessage("Question should not have duplicated answer")
+                .When(x => x.Answers != null);
         }
     }
 }

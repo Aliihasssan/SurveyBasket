@@ -100,6 +100,48 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "SurveyBasket.API.Controllers.QuestionsController",
+    "Method": "Add",
+    "RelativePath": "api/polls/{pollId}/Questions",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "pollId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "request",
+        "Type": "SurveyBasket.API.Contracts.Questions.QuestionRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SurveyBasket.API.Controllers.QuestionsController",
+    "Method": "GetById",
+    "RelativePath": "api/polls/{pollId}/Questions/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "pollId",
+        "Type": "",
+        "IsRequired": true
+      },
+      {
+        "Name": "id",
+        "Type": "",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "SurveyBasket.API.Controllers.AuthController",
     "Method": "LoginAsync",
     "RelativePath": "Auth",

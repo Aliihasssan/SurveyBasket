@@ -2,8 +2,8 @@
 {
     public record QuestionResponse
     (
-        int id ,
+        int Id ,
         string Content,
-        IEnumerable<Answer> Answers
+        ICollection<Answer> Answers
         );
 }
